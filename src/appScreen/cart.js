@@ -19,10 +19,8 @@ function Cart({cartOpener,changeToastVisibility,changeLoadingStatus,email})
             if (docSnapshot.exists()) {
                 const booksQuerySnapshot = await getDocs(booksCollectionRef);
                 const booksData = booksQuerySnapshot.docs.map((doc) => {
-                    const element={id:doc.id,...doc.data()};
-                    return(element);
+                    return(doc.data());
                 });
-                console.log(booksData);
                 setCartList(booksData);
               }
             changeLoadingStatus();
@@ -46,7 +44,7 @@ function Cart({cartOpener,changeToastVisibility,changeLoadingStatus,email})
             <div class="cartContainer">
                 <div class="cartHeader"><button class="closeButton" onClick={closeButtonHandler}><img class="closeImg" src={closeImg} /></button></div>
                 <div class="cartData">
-                    {cartList.map(data => {return(<CartBookContainer changeLoadingStatus={changeLoadingStatus} data={data} email={email} changeToastVisibility={changeToastVisibility} fetchCart={fetchCart} />)})}
+                    {cartList.length===0?<div class="cartEmpty">No Books in Cart</div>:cartList.map(data => {return(<CartBookContainer changeLoadingStatus={changeLoadingStatus} data={data} email={email} changeToastVisibility={changeToastVisibility} fetchCart={fetchCart} />)})}
                 </div>
             </div>
         </div>

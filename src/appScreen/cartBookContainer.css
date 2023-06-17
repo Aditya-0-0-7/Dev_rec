@@ -15,11 +15,25 @@
     min-height: 20vh;
     width: 59vw;
     height: fit-content;
-    justify-self: center;
     margin-top: 2vh;
     margin-bottom: 2vh;
     background-color: rgba(255,255,255,0.5);
     border-radius: 1vw;
+    flex-direction: column;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding:0.5vw;
+}
+.bookDetailContainer
+{
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    min-height: 20vh;
+    width: 59vw;
+    height: fit-content;
+    background-color: rgba(255,255,255,0.5);
 }
 .bookImg1
 {
@@ -27,6 +41,14 @@
     width: 5vw;
     margin-right: 4vw;
     margin-left: 4vw;
+}
+.bookContainerHeader
+{
+    display: flex;
+    justify-content: flex-end;
+    width:59vw;
+    height: fit-content;
+    cursor:pointer;
 }
 .cartActionButton
 {

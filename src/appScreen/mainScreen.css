@@ -1,6 +1,8 @@
 .mainScreen
 {
     background-color: #B2B2B2;
+    width:100vw;
+    height: 100vh;
 }
 .searchContainer
 {
@@ -33,6 +35,11 @@
 {
     margin-top: 2px;
     margin-bottom: 2px;
+    cursor:pointer;
+}
+.suggestion:hover
+{
+    background-color: #B2B2B2;
 }
 .searchBox
 {

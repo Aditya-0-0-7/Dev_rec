@@ -27,6 +27,7 @@ function MainScreen({updateLogIn, email})
     const [toastVisible,setToastVisible] = useState(false);
     const [toastMessage,setToastMessage] = useState("");
     const [cartVisibility,setCartVisibility] = useState(false);
+    const [isSearched,setSearched] = useState(false);
 
     const fetchData = async (sortBy, sortOrder, isSearched) => {
         setLoading(true);
@@ -47,10 +48,38 @@ function MainScreen({updateLogIn, email})
                 const authorData = authorSnapshot.docs.map((doc) => doc.data());
                 const bookData = bookSnapshot.docs.map((doc) => doc.data());
                 const genreData = genreSnapshot.docs.map((doc) => doc.data());
-            
                 const mergedData = [...authorData, ...bookData, ...genreData];
+                if(sortBy!=="" && sortOrder!=="")
+                {
+                const sortedData = mergedData.sort((a, b) => {
+                  const valueA = a[sortBy]; 
+                  const valueB = b[sortBy]; 
+                
+                  if (sortOrder === "asc") {
+                    
+                    if (valueA < valueB) {
+                      return -1;
+                    }
+                    if (valueA > valueB) {
+                      return 1;
+                    }
+                    return 0;
+                  } else if (sortOrder === "desc") {
+                    
+                    if (valueA > valueB) {
+                      return -1;
+                    }
+                    if (valueA < valueB) {
+                      return 1;
+                    }
+                    return 0;
+                  }
+                });
+                setData(sortedData);
+              }
+              else
                 setData(mergedData);
-                setLoading(false);
+              setLoading(false);
             
               } catch (error) {
                 changeToastVisibility("Error: Cannot Load Data");
@@ -88,32 +117,38 @@ function MainScreen({updateLogIn, email})
     }
     };
 
-    const addToCart = async (book) => {
+    const addToCart = useCallback(async (book) => {
         setLoading(true);
         const collectionRef = collection(db, 'cart');
         const docRef = doc(collectionRef, email);
         const booksCollectionRef = collection(docRef, 'books');
+        const customDocRef = doc(booksCollectionRef, `${book.ids}`);
       
         try {
           const docSnapshot = await getDoc(docRef);
       
           if (docSnapshot.exists()) {
-            await addDoc(booksCollectionRef, book);
+            await setDoc(customDocRef, book);
           } else {
             await setDoc(docRef, {});
-            await addDoc(booksCollectionRef, book);
+            await setDoc(customDocRef, book);
           }
           changeToastVisibility("Book Added To Cart Successfully");
         } catch (error) {
           changeToastVisibility("Error: Can Not Add Book To Cart");
         }
         setLoading(false);
-      };
+      },[setLoading]);
       
     useEffect(() => {
-        if(data.length===0)
         fetchData(selectedSortField,selectedSortOrder,false);
-      }, [selectedSortField,selectedSortOrder,searchValue]);
+      }, [selectedSortField,selectedSortOrder]);
+
+      useEffect(() => {
+        if(isSearched)
+        fetchData(selectedSortField,selectedSortOrder,true);
+        setSearched(false);
+      },[isSearched])
 
     useEffect(() => {
         dataSet.map((data) => {
@@ -122,6 +157,13 @@ function MainScreen({updateLogIn, email})
             suggestionTrie.insert(data.genre);
         })
     },[]);
+
+    useEffect(()=>{
+      if(!cartVisibility)
+      {
+        fetchData(selectedSortField,selectedSortOrder,false);
+      }
+    },[cartVisibility]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -147,12 +189,14 @@ function MainScreen({updateLogIn, email})
         }
         setLastDoc(false);
         setData([]);
+        setHasMore(true);
       }
 
       const handleSortOrderChange = (event) => {
         setSelectedSortOrder(event.target.value);
         setLastDoc(false);
         setData([]);
+        setHasMore(true);
       };
 
       const searchTextHandler = (event) => {
@@ -169,28 +213,37 @@ function MainScreen({updateLogIn, email})
         signOut(auth)
           .then(() => {
             updateLogIn(false);
+            changeToastVisibility("Logout Successful");
           })
           .catch((error) => {
-            console.error('Logout error:', error);
+            changeToastVisibility("Error: Logout Failed");
           });
       };
       
       const searchHandler = () => {
         setData([]);
-        setSelectedSortField("");
-        setSelectedSortOrder("");
-        fetchData(selectedSortField,selectedSortOrder,true);
+        setLastDoc(false);
+        setHasMore(true);
+        setSearched(true);
       }
 
-      const cartOpener = () => {
-        setSelectedSortField("");
-        setSelectedSortOrder("");
-        setData([]);
-        fetchData(selectedSortField,selectedSortOrder,false);
+      const suggestionPress = (suggestionValue) => {
+        setSearchValue(suggestionValue);
+        searchBlur();
+      }
+
+      const cartOpener =() => {
+        if(cartVisibility)
+        {
+          setLastDoc(false);
+          setHasMore(true);
+          setData([]);
+          
+        }
         setCartVisibility(val => !val);
       };
 
-      const changeToastVisibility= (msg) => {
+      const changeToastVisibility= useCallback((msg) => {
         if(!toastVisible)
         {
             setToastMessage(msg);
@@ -199,11 +252,11 @@ function MainScreen({updateLogIn, email})
                 setToastVisible(false);
             },2000);
         }
-      }
+      },[setToastVisible]);
 
-      const changeLoadingStatus= () => {
+      const changeLoadingStatus = useCallback(() => {
         setLoading(value => !value);
-      }
+      },[setLoading]);
       
     return(
         <div class="mainScreen">
@@ -221,9 +274,11 @@ function MainScreen({updateLogIn, email})
                         <img src={searchImg} class="searchImg" onClick={searchHandler} />
                     </div>
                     <div class="suggestionBox">
-                        {suggestions.map((suggestionValue) => {
-                            return(<div class="suggestion">{suggestionValue}</div>);
-                        })}
+                      {suggestions.map((suggestionValue,ind) => {
+                              return(<div key={ind} class="suggestion" onClick={()=>{
+                                suggestionPress(suggestionValue);
+                              }}>{suggestionValue}</div>);
+                          })}
                     </div>
                 </div>
             </div>
