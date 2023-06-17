@@ -1,0 +1,56 @@
+.bookInfo
+{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    word-wrap: break-word;
+    width:60vw;
+}
+.bookContainer
+{
+    display:flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 20vh;
+    width: 95vw;
+    height: fit-content;
+    justify-self: center;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 1vw;
+}
+.bookImg
+{
+    height: 18vh;
+    width: 10vw;
+    margin-right: 4vw;
+    margin-left: 4vw;
+}
+.bookCart
+{
+    size: 4vw;
+    color:white;
+    padding:0.5vw;
+    text-align: center;
+}
+.cartImgBook
+{
+    max-width:5vw;
+    max-height:5vh;
+}
+.cartButton
+{
+    display: flex;
+    flex-direction: row;
+    border-radius: 5px;
+    background-color: #d84830;
+    min-width:5vw;
+    min-height: 5vh;
+    align-items: center;
+    justify-content: center;
+    width:fit-content;
+    height: fit-content;
+    cursor: pointer;
+}

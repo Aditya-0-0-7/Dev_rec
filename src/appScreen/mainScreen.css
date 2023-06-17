@@ -1,0 +1,159 @@
+.mainScreen
+{
+    background-color: #B2B2B2;
+}
+.searchContainer
+{
+    position:fixed;
+    top: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    padding:5px;
+    border-radius:20px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:51vw;
+    height: fit-content;
+    border:2px solid black;
+    flex-direction: column;
+    z-index: 3;
+}
+.suggestionBox
+{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    max-height: 25vh;
+    width: 50vw;
+    overflow-y: auto;
+}
+.suggestion
+{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.searchBox
+{
+    width:45vw;
+    min-height:5vh;
+    font-size: 3.5vh;
+    padding:7px;
+    border:none;
+    outline: none;
+    align-self: flex-start;
+    background-color: rgba(255,255,255,0);
+}
+.searchHolder
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 15vh;
+}
+.searchImg
+{
+    width:5vw;
+    height:5vh;
+    cursor:pointer;
+}
+.searchBoxContainer
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-height: 5vh;
+    height: fit-content;
+}
+.header
+{
+    position:fixed;
+    width:100vw;
+    height:20vh;
+    background-color: #2D2727;
+    z-index: 1;
+}
+.logo
+{
+    position:fixed;
+    left:2%;
+    top:0vh;
+    width:20vw;
+    height:20vh;
+    z-index: 1;
+}
+.logout
+{
+    position:fixed;
+    right:3vw;
+    top:10vh;
+    transform:translateY(-50%);
+    min-width:5vw;
+    min-height: 5vh;
+    size: 4vh;
+    border-radius: 5px;
+    background-color: #d84830;
+    color:white;
+    cursor: pointer;
+    z-index: 1;
+}
+.bookHolder
+{
+    position:absolute;
+    top:20vh;
+    width:100vw;
+    height: fit-content;
+    background-color: #B2B2B2;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.filterHolder
+{
+    z-index: 2;
+    position: fixed;
+    top:14vh;
+    width:50vw;
+    display: flex;
+    justify-content: space-around;
+    left:50vw;
+    transform: translateX(-50%);
+}
+select
+{
+    min-width: 10vw;
+    min-height: 4vh;
+    border-radius: 2vw;
+    text-align: center;
+    background-color: grey;
+    color: white;
+    padding:5px;
+}
+option
+{
+    font-size: 15px;
+}
+.cartImgHeader
+{
+    width:5vw;
+    height: 5vh;
+}
+.cartButtonHeader
+{
+    cursor: pointer;
+    position:fixed;
+    right:10vw;
+    top:10vh;
+    z-index: 1;
+    width:5vw;
+    height: 5vh;
+    transform: translateY(-50%);
+    border-radius: 5px;
+    background-color: #d84830;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

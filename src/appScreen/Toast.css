@@ -1,0 +1,19 @@
+.toastContainer
+{
+    position:fixed;
+    bottom:5vh;
+    right:2vw;
+    color: white;
+    background-color: #2D2727;
+    max-width:15vw;
+    min-width:10vw;
+    min-height: 5vh;
+    word-wrap: break-word;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding:0.3vw;
+    z-index: 6;
+}
